@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro do Psicólogo</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lordicon -->
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+
+    <!-- Personalização do Tailwind inline -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4bb3fd" /* Azul claro (Botões principais) */,
+              dark: "#121331" /* Preto azulado (Textos e botões neutros) */,
+              warning: "#ffc738" /* Amarelo (Botões de alerta e destaque) */,
+              back: "#d1d5db" /* Cinza claro (Fundo) */,
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+      <!-- Ícone animado -->
+      <div class="flex justify-center mb-6">
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+        <lord-icon
+          src="https://cdn.lordicon.com/hibixlbn.json"
+          trigger="in"
+          delay="1500"
+          state="in-reveal"
+          colors="primary:#4bb3fd,secondary:#ffc738"
+          style="width: 150px; height: 150px"
+        >
+        </lord-icon>
+      </div>
+
+      <!-- Título -->
+      <h1
+        id="tituloFormulario"
+        class="text-3xl font-bold text-dark mb-6 text-center"
+      >
+        Cadastro do Psicólogo
+      </h1>
+
+      <!-- Botão Voltar -->
+      <div class="mb-6">
+        <button
+          onclick="window.location.href='dashboard.html'"
+          class="w-full flex items-center justify-center gap-2 bg-back text-dark p-3 rounded-lg hover:bg-gray-400 transition"
+        >
+          Voltar
+        </button>
+      </div>
+
+      <form id="formPsicologo" class="space-y-6">
+        <input type="hidden" id="psicologo_id" />
+
+        <!-- DADOS PESSOAIS -->
+        <h3 class="text-lg font-semibold text-dark">Dados Pessoais</h3>
+        <div>
+          <label for="nome" class="block text-sm font-medium"
+            >Nome Completo</label
+          >
+          <input
+            type="text"
+            id="nome"
+            placeholder="Nome completo"
+            required
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="senha" class="block text-sm font-medium">Senha</label>
+          <input
+            type="password"
+            id="senha"
+            placeholder="Senha"
+            required
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="crp" class="block text-sm font-medium">CRP</label>
+          <input
+            type="text"
+            id="crp"
+            placeholder="CRP"
+            required
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="telefone" class="block text-sm font-medium"
+            >Telefone</label
+          >
+          <input
+            type="tel"
+            id="telefone"
+            placeholder="(11) 99999-9999"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco" class="block text-sm font-medium"
+            >Endereço</label
+          >
+          <input
+            type="text"
+            id="endereco"
+            placeholder="Endereço"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <!--Preferências do Sistema -->
+        <h3 class="text-lg font-semibold text-dark">Preferências do Sistema</h3>
+
+        <div>
+          <label for="validade_documentos" class="block text-sm font-medium"
+            >Validade dos Documentos (dias)</label
+          >
+          <input
+            type="number"
+            id="validade_documentos"
+            placeholder="Validade em dias"
+            min="1"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="mb-6">
+          <button
+            type="submit"
+            class="w-full bg-primary text-white p-3 rounded-lg hover:bg-blue-500 transition"
+          >
+            Salvar
+          </button>
+        </div>
+
+        <p id="feedback" class="text-center text-sm"></p>
+      </form>
+    </div>
+
+    <script type="module" src="../js/cadastro_psicologo.js"></script>
+  </body>
+</html>

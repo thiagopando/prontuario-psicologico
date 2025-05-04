@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Impressão de Sessões</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media print {
+        button {
+          display: none;
+        }
+        body {
+          padding: 0;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="p-6 bg-white text-gray-900">
+    <h1 class="text-2xl font-bold mb-4">Sessões do Paciente</h1>
+    <div id="conteudoImpresso" class="space-y-6"></div>
+
+    <button
+      onclick="window.print()"
+      class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    >
+      Imprimir
+    </button>
+
+    <script type="module" src="../js/impressao.js"></script>
+  </body>
+</html>

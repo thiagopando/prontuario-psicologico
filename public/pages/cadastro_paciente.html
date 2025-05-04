@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Paciente</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lordicon -->
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+
+    <!-- Personalização do Tailwind inline -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4bb3fd" /* Azul claro (Botões principais) */,
+              dark: "#121331" /* Preto azulado (Textos e botões neutros) */,
+              warning: "#ffc738" /* Amarelo (Botões de alerta e destaque) */,
+              back: "#d1d5db" /* Cinza claro (Fundo) */,
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+      <!-- Ícone animado -->
+      <div class="flex justify-center mb-6">
+        <lord-icon
+          src="https://cdn.lordicon.com/jnirubdc.json"
+          trigger="in"
+          delay="1000"
+          colors="primary:#121331,secondary:#ebe6ef,tertiary:#3a3347,quaternary:#4bb3fd,quinary:#ffc738"
+          style="width: 150px; height: 150px"
+        >
+        </lord-icon>
+      </div>
+
+      <!-- Título -->
+      <h1
+        id="tituloFormulario"
+        class="text-3xl font-bold text-dark mb-6 text-center"
+      >
+        Cadastrar Paciente
+      </h1>
+
+      <!-- Botão Voltar -->
+      <div class="mb-6">
+        <button
+          onclick="window.location.href='pacientes.html'"
+          class="w-full flex items-center justify-center gap-2 bg-back text-dark p-3 rounded-lg hover:bg-gray-400 transition"
+        >
+          Voltar
+        </button>
+      </div>
+
+      <form id="formPaciente" class="space-y-6">
+        <input type="hidden" id="id" />
+
+        <!-- DADOS PESSOAIS -->
+        <h3 class="text-lg font-semibold text-dark">Dados Pessoais</h3>
+        <div>
+          <label for="nome" class="block text-sm font-medium"
+            >Nome completo</label
+          >
+          <input
+            type="text"
+            id="nome"
+            placeholder="Nome completo"
+            required
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="nascimento" class="block text-sm font-medium"
+              >Data de nascimento</label
+            >
+            <input
+              type="date"
+              id="nascimento"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label for="idade" class="block text-sm font-medium"
+              >Idade (automática)</label
+            >
+            <input
+              type="text"
+              id="idade"
+              readonly
+              placeholder="Idade"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="telefone" class="block text-sm font-medium"
+              >Telefone</label
+            >
+            <input
+              type="text"
+              id="telefone"
+              placeholder="(11) 99999-9999"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="cpf" class="block text-sm font-medium">CPF</label>
+            <input
+              type="text"
+              id="cpf"
+              placeholder="000.000.000-00"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label for="rg" class="block text-sm font-medium">RG</label>
+            <input
+              type="text"
+              id="rg"
+              placeholder="00.000.000-0"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
+        <!-- DADOS FINANCEIROS -->
+        <h3 class="text-lg font-semibold text-dark mt-10">Dados Financeiros</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="valor_sessao" class="block text-sm font-medium"
+              >Valor Sessão (R$)</label
+            >
+            <input
+              type="number"
+              id="valor_sessao"
+              placeholder="Valor da Sessão"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
+        <!-- PAGADOR -->
+        <h3 class="text-lg font-semibold text-dark mt-10">
+          Pagador (se diferente do paciente)
+        </h3>
+        <div class="flex items-center gap-2 mb-4">
+          <input
+            type="checkbox"
+            id="mesmo_pagador"
+            class="w-4 h-4 text-blue-600 border-gray-300 rounded"
+          />
+          <label for="mesmo_pagador" class="text-sm text-gray-700"
+            >Pagador é o mesmo que o paciente</label
+          >
+        </div>
+        <div>
+          <label for="pagador_nome" class="block text-sm font-medium"
+            >Nome do Pagador</label
+          >
+          <input
+            type="text"
+            id="pagador_nome"
+            placeholder="Nome do Pagador"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label for="pagador_contato" class="block text-sm font-medium"
+            >Contato do Pagador</label
+          >
+          <input
+            type="text"
+            id="pagador_contato"
+            placeholder="Contato do Pagador"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="pagador_cpf" class="block text-sm font-medium"
+              >CPF do Pagador</label
+            >
+            <input
+              type="text"
+              id="pagador_cpf"
+              placeholder="000.000.000-00"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label for="pagador_rg" class="block text-sm font-medium"
+              >RG do Pagador</label
+            >
+            <input
+              type="text"
+              id="pagador_rg"
+              placeholder="00.000.000-0"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
+        <!-- ENDEREÇO -->
+        <h3 class="text-lg font-semibold text-dark mt-10">Endereço Completo</h3>
+
+        <div>
+          <label for="endereco_cep" class="block text-sm font-medium"
+            >CEP</label
+          >
+          <input
+            type="text"
+            id="endereco_cep"
+            placeholder="CEP"
+            maxlength="9"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco_rua" class="block text-sm font-medium"
+            >Rua</label
+          >
+          <input
+            type="text"
+            id="endereco_rua"
+            placeholder="Rua"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label for="endereco_numero" class="block text-sm font-medium"
+              >Número</label
+            >
+            <input
+              type="text"
+              id="endereco_numero"
+              placeholder="Número"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+              required
+            />
+          </div>
+          <div>
+            <label for="endereco_complemento" class="block text-sm font-medium"
+              >Complemento</label
+            >
+            <input
+              type="text"
+              id="endereco_complemento"
+              placeholder="Complemento"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label for="endereco_bairro" class="block text-sm font-medium"
+              >Bairro</label
+            >
+            <input
+              type="text"
+              id="endereco_bairro"
+              placeholder="Bairro"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="endereco_cidade" class="block text-sm font-medium"
+              >Cidade</label
+            >
+            <input
+              type="text"
+              id="endereco_cidade"
+              placeholder="Cidade"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label for="endereco_estado" class="block text-sm font-medium"
+              >Estado</label
+            >
+            <input
+              type="text"
+              id="endereco_estado"
+              placeholder="Estado"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="mb-6">
+          <button
+            type="submit"
+            class="w-full bg-primary text-white p-3 rounded-lg hover:bg-blue-500 transition"
+          >
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+    <script type="module" src="../js/cadastro_paciente.js"></script>
+  </body>
+</html>

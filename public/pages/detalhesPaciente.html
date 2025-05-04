@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paciente</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lordicon -->
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+
+    <!-- Personalização do Tailwind inline -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4bb3fd" /* Azul claro (Botões principais) */,
+              dark: "#121331" /* Preto azulado (Textos e botões neutros) */,
+              warning: "#ffc738" /* Amarelo (Botões de alerta e destaque) */,
+              back: "#d1d5db" /* Cinza claro (Fundo) */,
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-3xl w-full">
+      <!-- Ícone Animado -->
+      <div class="flex justify-center mb-4">
+        <lord-icon
+          src="https://cdn.lordicon.com/vusjzklo.json"
+          trigger="in"
+          delay="1000"
+          colors="primary:#121331,secondary:#ffc738,tertiary:#4bb3fd"
+          style="width: 150px; height: 150px"
+        >
+        </lord-icon>
+      </div>
+
+      <!-- Título -->
+      <h1 class="text-3xl font-bold text-dark mb-6 text-center">
+        Detalhes do Paciente
+      </h1>
+
+      <!-- Botão Voltar ao Menu -->
+      <div class="mb-6">
+        <button
+          onclick="window.location.href='dashboard.html'"
+          class="w-full flex items-center justify-center gap-2 bg-back text-dark p-3 rounded-lg hover:bg-gray-400 transition"
+        >
+          Voltar
+        </button>
+      </div>
+
+      <!-- Informações do Paciente -->
+      <div
+        id="dadosPaciente"
+        class="space-y-3 text-gray-700 mb-6 bg-gray-50 p-4 rounded-lg shadow-inner border border-gray-300"
+      ></div>
+
+      <!-- Botões de Ação -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <button
+          id="editarPaciente"
+          class="w-full flex items-center justify-center gap-2 bg-primary text-white p-3 rounded-lg hover:bg-blue-400 transition"
+        >
+          Editar
+        </button>
+        <button
+          id="excluirPaciente"
+          class="w-full flex items-center justify-center gap-2 bg-red-600 text-white p-3 rounded-lg hover:bg-red-700 transition"
+        >
+          Excluir
+        </button>
+      </div>
+
+      <!-- Histórico de Sessões -->
+      <h3 class="text-xl font-semibold text-dark mb-4">Histórico de Sessões</h3>
+      <ul id="listaSessoes" class="space-y-4"></ul>
+
+      <!-- Botão Nova Sessão -->
+      <button
+        id="novaSessao"
+        class="w-full flex items-center justify-center gap-2 bg-primary text-white p-3 rounded-lg hover:bg-blue-500 transition mt-6"
+      >
+        Nova Sessão
+      </button>
+    </div>
+
+    <script src="../js/detalhesPaciente.js"></script>
+  </body>
+</html>

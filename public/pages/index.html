@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindLog - Prontuário Psicológico</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lordicon -->
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+    <!-- Personalização do Tailwind -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4bb3fd" /* Azul claro */,
+              dark: "#121331" /* Preto azulado */,
+              warning: "#ffc738" /* Amarelo destaque */,
+              back: "#f3f4f6" /* Fundo cinza claro */,
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bg-back flex items-center justify-center min-h-screen p-6">
+    <div class="bg-white shadow-xl rounded-lg p-10 max-w-lg w-full text-center">
+      <!-- Ícone animado -->
+      <div class="flex justify-center mb-4">
+        <lord-icon
+          src="https://cdn.lordicon.com/cklbznjc.json"
+          trigger="loop"
+          delay="2000"
+          colors="primary:#121331,secondary:#ffc738,tertiary:#4bb3fd"
+          style="width: 100px; height: 100px"
+        >
+        </lord-icon>
+      </div>
+
+      <!-- Título estilizado -->
+      <h1 class="text-4xl font-extrabold text-dark mb-2">MindLog</h1>
+      <p class="text-gray-600 mb-6">
+        Seu prontuário psicológico digital, organizado e seguro.
+      </p>
+
+      <!-- Formulário de Login -->
+      <form id="loginForm" class="space-y-5 text-left">
+        <div>
+          <label for="email" class="block font-medium text-dark mb-1"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            placeholder="Digite seu e-mail"
+            required
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="senha" class="block font-medium text-dark mb-1"
+            >Senha</label
+          >
+          <input
+            type="password"
+            id="senha"
+            placeholder="Digite sua senha"
+            required
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-primary text-white p-3 rounded-lg hover:bg-blue-500 transition"
+        >
+          Entrar
+        </button>
+      </form>
+
+      <!-- Opções adicionais -->
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-500">
+          Ainda não tem uma conta?
+          <a
+            href="cadastro.html"
+            class="text-primary font-semibold hover:underline"
+            >Crie uma agora</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <script src="../js/login.js" defer></script>
+  </body>
+</html>
