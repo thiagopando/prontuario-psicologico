@@ -62,7 +62,6 @@
       </select>
 
       <!-- Formulário Nova Sessão -->
-
       <form id="formSessao" class="space-y-8 mb-6">
         <input type="hidden" id="sessao_id" />
 
@@ -92,14 +91,77 @@
           ></textarea>
         </div>
 
-        <div class="flex items-center gap-3">
+        <!-- Técnicas utilizadas -->
+        <div>
+          <label
+            for="tecnicas_utilizadas"
+            class="block text-left mb-1 font-medium"
+            >Técnicas Utilizadas</label
+          >
           <input
-            type="checkbox"
-            id="pago"
-            class="w-5 h-5"
-            aria-label="Sessão paga"
+            type="text"
+            id="tecnicas_utilizadas"
+            placeholder="Digite ou selecione uma técnica"
+            class="w-full border rounded-md p-3"
+            aria-label="Técnicas utilizadas"
           />
-          <label for="pago" class="font-medium">Pago</label>
+          <small class="text-gray-500"
+            >Você pode cadastrar novas técnicas na área de configurações.</small
+          >
+        </div>
+
+        <!-- Emoções predominantemente observadas -->
+        <div>
+          <label
+            for="emocao_predominante"
+            class="block text-left mb-1 font-medium"
+            >Emoções Predominantemente Observadas</label
+          >
+          <textarea
+            id="emocao_predominante"
+            placeholder="Descreva as emoções observadas"
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="Emoções predominantemente observadas"
+          ></textarea>
+        </div>
+
+        <!-- Comportamentos notáveis -->
+        <div>
+          <label
+            for="comportamentos_notaveis"
+            class="block text-left mb-1 font-medium"
+            >Comportamentos Notáveis</label
+          >
+          <textarea
+            id="comportamentos_notaveis"
+            placeholder="Descreva os comportamentos notáveis"
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="comportamentos_notaveis notáveis"
+          ></textarea>
+        </div>
+
+        <!-- Reações do paciente -->
+        <div>
+          <label for="reacoes_paciente" class="block text-left mb-1 font-medium"
+            >Reações do Paciente</label
+          >
+          <textarea
+            id="reacoes_paciente"
+            placeholder="Descreva as reações do paciente"
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="Reações do paciente"
+          ></textarea>
+        </div>
+
+        <!-- Requisitos de formatação -->
+        <div class="bg-gray-50 p-4 rounded-md border border-gray-300">
+          <h4 class="font-semibold text-gray-700 mb-2">
+            Requisitos de Formatação
+          </h4>
+          <p class="text-gray-600">
+            De acordo com o CFP nº 06/2019, utilize linguagem formal e escreva
+            em terceira pessoa.
+          </p>
         </div>
 
         <button

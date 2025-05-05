@@ -33,7 +33,7 @@ async function listarPacientes() {
       const li = document.createElement("li");
 
       li.innerHTML = `
-        <button onclick="window.location.href='paciente.html?id=${p.id}'"
+        <button onclick="window.location.href='detalhesPaciente.html?id=${p.id}'"
             class="flex items-center justify-between w-full bg-white shadow-md hover:shadow-lg p-4 rounded-lg border border-gray-200 transition duration-200">
             
             <div class="flex items-center">

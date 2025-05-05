@@ -10,11 +10,23 @@ document.addEventListener("DOMContentLoaded", () => {
 const selectPaciente = document.getElementById("selectPaciente");
 const formSessao = document.getElementById("formSessao");
 const ipServer = window.location.hostname;
+const psicologoId = localStorage.getItem("psicologoId");
+console.log("ID do psicólogo recuperado:", psicologoId);
 
-// Função para listar pacientes no select
+if (!psicologoId) {
+  alert("Erro: ID do psicólogo não encontrado. Faça login novamente.");
+  window.location.href = "../index.html"; // Redirecionar para a página de login
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const sessaoId = urlParams.get("sessaoId");
+
+// Função para listar pacientes do psicólogo logado
 async function listarPacientes() {
   try {
-    const res = await fetch(`http://${ipServer}:3000/pacientes`);
+    const res = await fetch(
+      `http://${ipServer}:3000/pacientes/psicologo/${psicologoId}`
+    );
     const pacientes = await res.json();
 
     selectPaciente.innerHTML =
@@ -27,10 +39,7 @@ async function listarPacientes() {
       selectPaciente.appendChild(option);
     });
 
-    // NOVO: Preencher automaticamente se houver um ID na URL
-    const urlParams = new URLSearchParams(window.location.search);
     const pacientePreSelecionado = urlParams.get("id");
-
     if (pacientePreSelecionado) {
       selectPaciente.value = pacientePreSelecionado;
       console.log("Paciente pré-selecionado:", pacientePreSelecionado);
@@ -40,50 +49,46 @@ async function listarPacientes() {
   }
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const sessaoId = urlParams.get("sessaoId"); // Obter o ID da sessão da URL
-
-// Função para carregar os dados da sessão no formulário
+// Função para carregar dados da sessão
 async function carregarSessao() {
   if (!sessaoId) {
-    console.error("sessaoId não encontrado na URL.");
+    console.warn("Nenhum sessaoId fornecido na URL.");
     return;
   }
 
   try {
-    console.log(`Carregando sessão com ID: ${sessaoId}`);
-    const res = await fetch(`http://${ipServer}:3000/sessoes/${sessaoId}`);
-    console.log(`Resposta da API:`, res);
+    const res = await fetch(`http://${ipServer}:3000/sessoes/${sessaoId}`, {
+      headers: {
+        "psicologo-id": psicologoId,
+      },
+    });
 
     if (!res.ok) throw new Error("Erro ao buscar sessão.");
     const sessao = await res.json();
 
-    // Verificar se a sessão foi encontrada
     if (!sessao || Object.keys(sessao).length === 0) {
       throw new Error("Sessão não encontrada.");
     }
 
-    console.log(`Dados da sessão:`, sessao);
-
-    // Converter a data para o formato yyyy-MM-dd
     const dataFormatada = new Date(sessao.data).toISOString().split("T")[0];
 
-    // Preencher o formulário com os dados da sessão
     document.getElementById("sessao_id").value = sessao.id;
     selectPaciente.value = sessao.paciente_id;
-    document.getElementById("data").value = dataFormatada; // Data formatada
+    document.getElementById("data").value = dataFormatada;
     document.getElementById("descricao").value = sessao.descricao;
-    document.getElementById("pago").checked = sessao.pago === 1;
+    document.getElementById("tecnicas_utilizadas").value =
+      sessao.tecnicas || "";
+    document.getElementById("emocao_predominante").value = sessao.emocao || "";
+    document.getElementById("comportamentos_notaveis").value =
+      sessao.comportamentos || "";
+    document.getElementById("reacoes_paciente").value = sessao.reacoes || "";
   } catch (error) {
     console.error("Erro ao carregar sessão:", error);
     alert("Erro ao carregar os dados da sessão. Verifique se o ID é válido.");
   }
 }
 
-// Chamar a função ao carregar a página
-carregarSessao();
-
-// Função para salvar nova sessão
+// Enviar sessão (nova ou edição)
 formSessao.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -92,14 +97,30 @@ formSessao.addEventListener("submit", async function (e) {
   const pacienteId = selectPaciente.value;
   const data = document.getElementById("data").value;
   const descricao = document.getElementById("descricao").value;
-  const pago = document.getElementById("pago").checked ? 1 : 0;
+  const tecnicas = document.getElementById("tecnicas_utilizadas").value;
+  const emocao = document.getElementById("emocao_predominante").value;
+  const comportamentos = document.getElementById(
+    "comportamentos_notaveis"
+  ).value;
+  const reacoes = document.getElementById("reacoes_paciente").value;
 
   if (!pacienteId) {
     alert("Selecione um paciente!");
     return;
   }
 
-  const sessao = { paciente_id: pacienteId, data, descricao, pago };
+  const sessao = {
+    psicologo_id: psicologoId,
+    paciente_id: pacienteId,
+    data,
+    descricao,
+    tecnicas_utilizadas: tecnicas, // Corrigido
+    emocao_predominante: emocao, // Corrigido
+    comportamentos_notaveis: comportamentos, // Corrigido
+    reacoes_paciente: reacoes, // Corrigido
+  };
+  console.log("Dados da sessão a serem enviados:", sessao);
+
   const url = sessaoId
     ? `http://${ipServer}:3000/sessoes/${sessaoId}`
     : `http://${ipServer}:3000/sessoes`;
@@ -108,7 +129,10 @@ formSessao.addEventListener("submit", async function (e) {
   try {
     const response = await fetch(url, {
       method,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "psicologo-id": psicologoId,
+      },
       body: JSON.stringify(sessao),
     });
 
@@ -119,6 +143,8 @@ formSessao.addEventListener("submit", async function (e) {
       formSessao.reset();
       document.getElementById("sessao_id").value = "";
     } else {
+      const errorData = await response.json();
+      console.error("Erro ao salvar sessão:", errorData);
       throw new Error("Erro ao salvar sessão.");
     }
   } catch (error) {
@@ -127,18 +153,12 @@ formSessao.addEventListener("submit", async function (e) {
       "p-3 mb-6 rounded-lg text-center bg-red-100 text-red-700";
     console.error("Erro ao salvar sessão:", error);
   }
-
-  // Exibir a mensagem por 5 segundos e depois ocultá-la
-  setTimeout(() => {
-    feedback.className = "hidden";
-  }, 5000);
 });
 
-// Evento de mudança no selectPaciente (agora simplificado)
 selectPaciente.addEventListener("change", function () {
-  // Apenas uma ação mínima ou nenhuma ação
   console.log(`Paciente selecionado: ${this.value}`);
 });
 
-// Listar pacientes ao carregar a página
+// Inicialização
 listarPacientes();
+carregarSessao();

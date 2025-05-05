@@ -13,9 +13,9 @@
 
 - No cadastros_paciente.html adicionar os novos campos:
 
-  - Queixa principal (textarea)
-  - Objeitco terapêutico (textarea)
-  - Hipóteses iniciais (textarea)
+  - Queixa principal (textarea) --------OK
+  - Objeitco terapêutico (textarea) ----OK
+  - Hipóteses iniciais (textarea) ---- OK
 
 - em prontuarios.html
 

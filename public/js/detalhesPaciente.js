@@ -16,10 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarPaciente() {
     try {
       const psicologoId = localStorage.getItem("psicologoId");
+      const url = `http://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`;
 
-      const res = await fetch(
-        `http://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`
-      );
+      console.log("🔍 Chamando rota:", url); // ✅ LOG ADICIONADO AQUI
+
+      const res = await fetch(url);
 
       if (!res.ok) {
         throw new Error(`Erro ${res.status}: ${res.statusText}`);
@@ -67,10 +68,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Criar o botão "Imprimir todas as sessões" fora do loop
+      const btnImprimirTodas = document.createElement("button");
+      btnImprimirTodas.className =
+        "mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition";
+      btnImprimirTodas.textContent = "Imprimir todas as sessões";
+      btnImprimirTodas.onclick = () => {
+        const ids = sessoes.map((s) => s.id).join(",");
+        window.location.href = `impressao.html?sessaoId=${ids}&pacienteId=${pacienteId}`;
+      };
+
+      // Inserir o botão antes da lista de sessões
+      listaSessoes.parentNode.insertBefore(btnImprimirTodas, listaSessoes);
+
       sessoes.forEach((s) => {
         const li = document.createElement("li");
         li.className =
-          "bg-gray-100 p-4 rounded-lg shadow-sm flex items-center justify-between";
+          "bg-gray-100 p-4 rounded-lg shadow-sm flex flex-col gap-2";
 
         li.innerHTML = `
         <div>
@@ -79,6 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
             s.pago ? "Sim" : "Não"
           }</p>
           <p><span class="font-semibold">Descrição:</span> ${s.descricao}</p>
+          <p><span class="font-semibold">Técnicas Utilizadas:</span> ${
+            s.tecnicas_utilizadas || "Não informado"
+          }</p>
+          <p><span class="font-semibold">Emoções Predominantes:</span> ${
+            s.emocao_predominante || "Não informado"
+          }</p>
+          <p><span class="font-semibold">Comportamentos Notáveis:</span> ${
+            s.comportamentos_notaveis || "Não informado"
+          }</p>
+          <p><span class="font-semibold">Reações do Paciente:</span> ${
+            s.reacoes_paciente || "Não informado"
+          }</p>
         </div>
         <div class="flex gap-2">
           <button
@@ -98,15 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnExcluir = li.querySelector(".excluir-sessao");
         btnExcluir.addEventListener("click", () => excluirSessao(s.id));
 
-        const btnImprimirTodas = document.createElement("button");
-        btnImprimirTodas.className =
-          "mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition";
-        btnImprimirTodas.textContent = "Imprimir todas as sessões";
-        btnImprimirTodas.onclick = () => {
-          const ids = sessoes.map((s) => s.id).join(",");
-          window.location.href = `impressao.html?sessaoId=${ids}`;
-        };
-        listaSessoes.parentNode.insertBefore(btnImprimirTodas, listaSessoes);
         listaSessoes.appendChild(li);
       });
     } catch (error) {
@@ -156,15 +173,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function imprimirSessao(sessaoId) {
-    window.location.href = `impressao.html?sessaoId=${sessaoId}`;
+    window.location.href = `impressao.html?sessaoId=${sessaoId}&pacienteId=${pacienteId}`;
   }
 
   // Botão Editar Paciente
   btnEditar = document.getElementById("editarPaciente");
 
   btnEditar.addEventListener("click", () => {
-    // Redirecionar para a página de edição do paciente
-    window.location.href = `cadastro_paciente.html?id=${pacienteId}`;
+    const psicologoId = localStorage.getItem("psicologoId"); // Recuperar o ID do psicólogo
+    if (!psicologoId) {
+      alert("Erro: ID do psicólogo não encontrado. Faça login novamente.");
+      window.location.href = "../index.html"; // Redirecionar para a página de login
+      return;
+    }
+
+    // Redirecionar para a página de edição do paciente com o psicologoId
+    window.location.href = `cadastro_paciente.html?id=${pacienteId}&psicologoId=${psicologoId}`;
   });
 
   btnNovaSessao.addEventListener("click", () => {

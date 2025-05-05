@@ -123,6 +123,14 @@ app.post("/pacientes", (req, res) => {
     endereco_bairro,
     endereco_cidade,
     endereco_estado,
+    // Novos campos
+    queixa_principal,
+    objetivo_terapeutico,
+    hipoteses_iniciais,
+    status_caso,
+    motivo_encerramento,
+    encaminhamentos_realizados,
+    profissional_destino,
   } = req.body;
 
   console.log("Tentativa de cadastro de paciente:", nome);
@@ -132,8 +140,10 @@ app.post("/pacientes", (req, res) => {
       psicologo_id, nome, nascimento, telefone, email, cpf, rg, valor_sessao, mesmo_pagador,
       pagador_nome, pagador_contato, pagador_cpf, pagador_rg,
       endereco_cep, endereco_rua, endereco_numero, endereco_complemento,
-      endereco_bairro, endereco_cidade, endereco_estado
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      endereco_bairro, endereco_cidade, endereco_estado,
+      queixa_principal, objetivo_terapeutico, hipoteses_iniciais, status_caso,
+      motivo_encerramento, encaminhamentos_realizados, profissional_destino
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       psicologo_id,
       nome,
@@ -155,6 +165,13 @@ app.post("/pacientes", (req, res) => {
       endereco_bairro,
       endereco_cidade,
       endereco_estado,
+      queixa_principal,
+      objetivo_terapeutico,
+      hipoteses_iniciais,
+      status_caso,
+      motivo_encerramento,
+      encaminhamentos_realizados,
+      profissional_destino,
     ],
     function (err) {
       if (err) {
@@ -192,17 +209,29 @@ app.put("/pacientes/:id", (req, res) => {
     endereco_bairro,
     endereco_cidade,
     endereco_estado,
-    psicologo_id, // usado só para validar a propriedade
+    psicologo_id, // usado para validar a propriedade
+    // Novos campos
+    queixa_principal,
+    objetivo_terapeutico,
+    hipoteses_iniciais,
+    status_caso,
+    motivo_encerramento,
+    encaminhamentos_realizados,
+    profissional_destino,
   } = req.body;
   const { id } = req.params;
 
+  console.log("Tentativa de atualização de paciente:", id);
+
   db.run(
-    `UPDATE pacientes SET nome = ?, nascimento = ?, telefone = ?, email = ?,
-     cpf = ?, rg = ?, valor_sessao = ?, mesmo_pagador = ?, pagador_nome = ?,
-     pagador_contato = ?, pagador_cpf = ?, pagador_rg = ?, endereco_cep = ?,
-     endereco_rua = ?, endereco_numero = ?, endereco_complemento = ?,
-     endereco_bairro = ?, endereco_cidade = ?, endereco_estado = ?
-     WHERE id = ? AND psicologo_id = ?`,
+    `UPDATE pacientes SET 
+      nome = ?, nascimento = ?, telefone = ?, email = ?, cpf = ?, rg = ?, valor_sessao = ?, 
+      mesmo_pagador = ?, pagador_nome = ?, pagador_contato = ?, pagador_cpf = ?, pagador_rg = ?, 
+      endereco_cep = ?, endereco_rua = ?, endereco_numero = ?, endereco_complemento = ?, 
+      endereco_bairro = ?, endereco_cidade = ?, endereco_estado = ?, 
+      queixa_principal = ?, objetivo_terapeutico = ?, hipoteses_iniciais = ?, status_caso = ?, 
+      motivo_encerramento = ?, encaminhamentos_realizados = ?, profissional_destino = ?
+      WHERE id = ? AND psicologo_id = ?`,
     [
       nome,
       nascimento,
@@ -223,8 +252,15 @@ app.put("/pacientes/:id", (req, res) => {
       endereco_bairro,
       endereco_cidade,
       endereco_estado,
+      queixa_principal,
+      objetivo_terapeutico,
+      hipoteses_iniciais,
+      status_caso,
+      motivo_encerramento,
+      encaminhamentos_realizados,
+      profissional_destino,
       id,
-      psicologo_id, // <- usado aqui
+      psicologo_id, // usado para validar
     ],
     function (err) {
       if (err) {
@@ -291,43 +327,73 @@ app.get("/sessoes/paciente/:paciente_id", (req, res) => {
 app.get("/sessoes/:id", (req, res) => {
   const { id } = req.params;
 
-  console.log(`Buscando sessão ${id}`);
+  db.get(
+    `SELECT s.*, p.psicologo_id FROM sessoes s
+     JOIN pacientes p ON s.paciente_id = p.id
+     WHERE s.id = ?`,
+    [id],
+    (err, row) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
 
-  db.get("SELECT * FROM sessoes WHERE id = ?", [id], (err, row) => {
-    if (err) {
-      console.error("Erro ao buscar sessão:", err.message);
-      return res.status(500).json({ error: err.message });
+      const psicologoLogado = req.headers["psicologo-id"]; // Enviado pelo JS
+
+      if (!row || row.psicologo_id != psicologoLogado) {
+        return res.status(403).json({ error: "Acesso negado à sessão." });
+      }
+
+      res.json(row);
     }
-
-    if (!row) {
-      return res.status(404).json({ error: "Sessão não encontrada." });
-    }
-
-    res.json(row);
-  });
+  );
 });
 
 // Registrar nova sessão
 app.post("/sessoes", (req, res) => {
-  const { psicologo_id, paciente_id, data, descricao, pago } = req.body;
+  const {
+    psicologo_id,
+    paciente_id,
+    data,
+    descricao,
+    tecnicas_utilizadas,
+    emocao_predominante,
+    comportamentos_notaveis,
+    reacoes_paciente,
+  } = req.body;
+
+  console.log("Dados recebidos para nova sessão:", {
+    psicologo_id,
+    paciente_id,
+    data,
+    descricao,
+    tecnicas_utilizadas,
+    emocao_predominante,
+    comportamentos_notaveis,
+    reacoes_paciente,
+  });
 
   if (!paciente_id) {
     return res.status(400).json({ error: "ID do paciente é obrigatório." });
   }
 
-  console.log(`Registrando nova sessão para o paciente ${paciente_id}`);
-
   db.run(
-    `INSERT INTO sessoes (psicologo_id, paciente_id, data, descricao, pago) VALUES (?, ?, ?, ?)`,
-    [psicologo_id, paciente_id, data, descricao, pago],
+    `INSERT INTO sessoes (psicologo_id, paciente_id, data, descricao, tecnicas_utilizadas, emocao_predominante, comportamentos_notaveis, reacoes_paciente) 
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      psicologo_id,
+      paciente_id,
+      data,
+      descricao,
+      tecnicas_utilizadas,
+      emocao_predominante,
+      comportamentos_notaveis,
+      reacoes_paciente,
+    ],
     function (err) {
       if (err) {
         console.error("Erro ao registrar sessão:", err.message);
         return res.status(500).json({ error: err.message });
       }
-      console.log(
-        `Sessão registrada com sucesso para o paciente ${paciente_id}`
-      );
       res.json({ id: this.lastID, message: "Sessão registrada com sucesso!" });
     }
   );
@@ -374,22 +440,29 @@ app.delete("/sessoes/:id", (req, res) => {
   });
 });
 
-app.get("/pacientes/:id", (req, res) => {
-  const { id } = req.params;
-  console.log(`🔍 Buscando paciente com ID: ${id} no banco de dados`);
-  db.get("SELECT * FROM pacientes WHERE id = ?", [id], (err, row) => {
-    if (err) {
-      console.error("Erro ao buscar paciente:", err.message);
-      return res.status(500).json({ error: err.message });
-    }
-    if (!row) {
-      return res.status(404).json({ error: "Paciente não encontrado." });
-    }
-    console.log("✅ Paciente encontrado:", row); // <--- aqui
-    res.json(row);
-  });
-});
+// ✅ Esta rota é segura para buscar os dados de um paciente do psicólogo autenticado
+app.get("/pacientes/:id/:psicologo_id", (req, res) => {
+  const { id, psicologo_id } = req.params;
 
+  db.get(
+    "SELECT * FROM pacientes WHERE id = ? AND psicologo_id = ?",
+    [id, psicologo_id],
+    (err, row) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (!row) {
+        return res
+          .status(404)
+          .json({ error: "Paciente não encontrado ou acesso não autorizado." });
+      }
+
+      res.json(row);
+    }
+  );
+});
+// Rota para exibir o psicólogo autenticado
 app.get("/psicologos/:id", (req, res) => {
   const { id } = req.params;
 
@@ -407,7 +480,7 @@ app.get("/psicologos/:id", (req, res) => {
   });
 });
 
-app.post("/tecnicas", (req, res) => {
+app.post("/tecnicas_utilizadas", (req, res) => {
   const { nome, psicologo_id } = req.body;
 
   if (!psicologo_id || !nome) {
@@ -415,7 +488,7 @@ app.post("/tecnicas", (req, res) => {
   }
 
   db.run(
-    "INSERT INTO tecnicas (nome, psicologo_id) VALUES (?, ?)",
+    "INSERT INTO tecnicas_utilizadas (nome, psicologo_id) VALUES (?, ?)",
     [nome, psicologo_id],
     function (err) {
       if (err) {
@@ -427,11 +500,11 @@ app.post("/tecnicas", (req, res) => {
   );
 });
 
-app.get("/tecnicas/:psicologo_id", (req, res) => {
+app.get("/tecnicas_utilizadas/:psicologo_id", (req, res) => {
   const { psicologo_id } = req.params;
 
   db.all(
-    "SELECT * FROM tecnicas WHERE psicologo_id = ?",
+    "SELECT * FROM tecnicas_utilizadas WHERE psicologo_id = ?",
     [psicologo_id],
     (err, rows) => {
       if (err) {

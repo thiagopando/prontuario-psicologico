@@ -53,7 +53,7 @@
       <!-- Botão Voltar -->
       <div class="mb-6">
         <button
-          onclick="window.location.href='pacientes.html'"
+          onclick="window.location.href='listaPacientes.html'"
           class="w-full flex items-center justify-center gap-2 bg-back text-dark p-3 rounded-lg hover:bg-gray-400 transition"
         >
           Voltar
@@ -311,6 +311,98 @@
               class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
             />
           </div>
+        </div>
+
+        <!-- DADOS TERAPÊUTICOS -->
+        <h3 class="text-lg font-semibold text-dark mt-10">
+          Dados terapêuticos
+        </h3>
+
+        <div>
+          <label for="queixa_principal" class="block text-sm font-medium"
+            >Queixa principal</label
+          >
+          <input
+            type="text"
+            id="queixa_principal"
+            placeholder="Queixa principal"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label for="objetivo_terapeutico" class="block text-sm font-medium"
+            >Objetivo terapeutico</label
+          >
+          <textarea
+            id="objetivo_terapeutico"
+            placeholder="Objetivo terapeutico"
+            required
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="Objetivo terapeutico"
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="hipoteses_iniciais" class="block text-sm font-medium"
+            >Hipoteses iniciais</label
+          >
+          <textarea
+            id="hipoteses_iniciais"
+            placeholder="Hipoteses iniciais"
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="Hipoteses iniciais"
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="status_caso" class="block text-sm font-medium"
+            >Status do caso</label
+          >
+          <select
+            id="status_caso"
+            class="w-full border rounded-md p-3 mb-6"
+            aria-label="Status do caso"
+          >
+            <option value=""></option>
+          </select>
+        </div>
+
+        <div>
+          <label for="motivo_encerramento" class="block text-sm font-medium"
+            >Motivo do encerramento</label
+          >
+          <textarea
+            id="motivo_encerramento"
+            placeholder="Motivo do encerramento"
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="Motivo do encerramento"
+          ></textarea>
+        </div>
+
+        <div>
+          <label
+            for="encaminhamentos_realizados"
+            class="block text-sm font-medium"
+            >Encaminhamentos realizados</label
+          >
+          <textarea
+            id="encaminhamentos_realizados"
+            placeholder="Encaminhamentos realizados"
+            class="w-full border rounded-md p-3 min-h-[100px]"
+            aria-label="Encaminhamentos realizados"
+          ></textarea>
+        </div>
+        <div>
+          <label for="profissional_destino" class="block text-sm font-medium"
+            >Profissional destino</label
+          >
+          <select
+            id="profissional_destino"
+            class="w-full border rounded-md p-3 mb-6"
+            aria-label="Profissional destino"
+          >
+            <option value=""></option>
+          </select>
         </div>
 
         <!-- BOTÕES -->

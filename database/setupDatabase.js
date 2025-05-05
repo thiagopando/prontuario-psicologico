@@ -51,6 +51,10 @@ db.serialize(() => {
         queixa_principal TEXT,
         objetivo_terapeutico TEXT,
         hipoteses_iniciais TEXT,
+        status_caso TEXT DEFAULT 'Em processo terapêutico',
+        motivo_encerramento TEXT,
+        encaminhamentos_realizados TEXT,
+        profissional_destino TEXT,
         FOREIGN KEY (psicologo_id) REFERENCES psicologo(id)
       )
     `);
@@ -68,10 +72,6 @@ db.serialize(() => {
         emocao_predominante TEXT,
         comportamentos_notaveis TEXT,
         reacoes_paciente TEXT,
-        status_caso TEXT DEFAULT 'Em processo terapêutico',
-        motivo_encerramento TEXT,
-        encaminhamentos_realizados TEXT,
-        profissional_destino TEXT,
         FOREIGN KEY (psicologo_id) REFERENCES psicologo(id),
         FOREIGN KEY (paciente_id) REFERENCES pacientes(id)
       )

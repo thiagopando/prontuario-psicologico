@@ -23,6 +23,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const rgInput = document.getElementById("rg");
   const cepInput = document.getElementById("endereco_cep");
 
+  // Novos campos
+  const queixaPrincipalInput = document.getElementById("queixa_principal");
+  const objetivoTerapeuticoInput = document.getElementById(
+    "objetivo_terapeutico"
+  );
+  const hipotesesIniciaisInput = document.getElementById("hipoteses_iniciais");
+  const statusCasoInput = document.getElementById("status_caso");
+  const motivoEncerramentoInput = document.getElementById(
+    "motivo_encerramento"
+  );
+  const encaminhamentosRealizadosInput = document.getElementById(
+    "encaminhamentos_realizados"
+  );
+  const profissionalDestinoInput = document.getElementById(
+    "profissional_destino"
+  );
+
   // Aplicar utilitários
   if (nascimentoInput && idadeInput) calcularIdade(nascimentoInput, idadeInput);
   if (telefoneInput) aplicarMascaraTelefone(telefoneInput);
@@ -55,9 +72,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Se for edição, buscar dados
   if (pacienteId) {
+    const psicologoId = new URLSearchParams(window.location.search).get(
+      "psicologoId"
+    );
+    if (!psicologoId) {
+      alert("Erro: ID do psicólogo não encontrado. Faça login novamente.");
+      window.location.href = "../index.html"; // Redirecionar para a página de login
+      return;
+    }
+
     tituloFormulario.textContent = "Editar Paciente";
-    fetch(`http://${ipServer}:3000/pacientes/${pacienteId}`)
-      .then((res) => res.json())
+    fetch(`http://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Erro ${res.status}: ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then((p) => {
         console.log("🧾 Dados recebidos do paciente:", p);
         if (p) {
@@ -81,11 +112,23 @@ document.addEventListener("DOMContentLoaded", () => {
           form.endereco_cidade.value = p.endereco_cidade || "";
           form.endereco_estado.value = p.endereco_estado || "";
           checkboxMesmaPessoa.checked = !!p.mesmo_pagador;
+
+          // Preencher novos campos
+          queixaPrincipalInput.value = p.queixa_principal || "";
+          objetivoTerapeuticoInput.value = p.objetivo_terapeutico || "";
+          hipotesesIniciaisInput.value = p.hipoteses_iniciais || "";
+          statusCasoInput.value = p.status_caso || "";
+          motivoEncerramentoInput.value = p.motivo_encerramento || "";
+          encaminhamentosRealizadosInput.value =
+            p.encaminhamentos_realizados || "";
+          profissionalDestinoInput.value = p.profissional_destino || "";
+
           nascimentoInput.dispatchEvent(new Event("change"));
         }
       })
       .catch((error) => {
         console.error("❌ Erro ao buscar paciente:", error);
+        alert("Erro ao carregar os dados do paciente.");
       });
   }
 
@@ -102,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const paciente = {
-      psicologo_id: psicologoId, // ✅ Aqui está a correção
+      psicologo_id: psicologoId,
       nome: form.nome.value.trim(),
       nascimento: form.nascimento.value,
       telefone: form.telefone.value.trim(),
@@ -122,7 +165,17 @@ document.addEventListener("DOMContentLoaded", () => {
       endereco_bairro: form.endereco_bairro.value.trim(),
       endereco_cidade: form.endereco_cidade.value.trim(),
       endereco_estado: form.endereco_estado.value.trim(),
+
+      // Novos campos
+      queixa_principal: queixaPrincipalInput.value.trim(),
+      objetivo_terapeutico: objetivoTerapeuticoInput.value.trim(),
+      hipoteses_iniciais: hipotesesIniciaisInput.value.trim(),
+      status_caso: statusCasoInput.value.trim(),
+      motivo_encerramento: motivoEncerramentoInput.value.trim(),
+      encaminhamentos_realizados: encaminhamentosRealizadosInput.value.trim(),
+      profissional_destino: profissionalDestinoInput.value.trim(),
     };
+
     const method = pacienteId ? "PUT" : "POST";
     const url = pacienteId
       ? `http://${ipServer}:3000/pacientes/${pacienteId}`
@@ -137,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         alert("Paciente salvo com sucesso!");
-        window.location.href = "pacientes.html";
+        window.location.href = "listaPacientes.html";
       } else {
         const errorData = await response.json();
         console.error("Erro ao salvar paciente:", errorData);
