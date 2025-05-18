@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const pacienteId = urlParams.get("id");
   const ipServer = window.location.hostname;
+  const psicologoId = localStorage.getItem("psicologoId");
 
   const dadosPaciente = document.getElementById("dadosPaciente");
   const listaSessoes = document.getElementById("listaSessoes");
@@ -12,13 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
   window.imprimirSessao = imprimirSessao;
   window.excluirSessao = excluirSessao;
 
+  function formatarData(dataISO) {
+    const [ano, mes, dia] = dataISO.split("-");
+    return `${dia}/${mes}/${ano}`;
+  }
   // Carregar dados do paciente
   async function carregarPaciente() {
     try {
-      const psicologoId = localStorage.getItem("psicologoId");
-      const url = `http://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`;
-
-      console.log("🔍 Chamando rota:", url); // ✅ LOG ADICIONADO AQUI
+      const url = `https://${ipServer}:3000/pacientesRoutes/carregaDetalhes/${pacienteId}/${psicologoId}`;
+      console.log("PsicologoID:", psicologoId);
+      console.log("PacienteID:", pacienteId);
+      console.log("🔍 Chamando rota:", url);
 
       const res = await fetch(url);
 
@@ -56,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarSessoes() {
     try {
       const res = await fetch(
-        `http://${ipServer}:3000/sessoes/paciente/${pacienteId}`
+        `https://${ipServer}:3000/sessaoRoutes/paciente/${pacienteId}`
       );
       sessoes = await res.json(); // Atribuir os dados à variável global
 
@@ -88,10 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         li.innerHTML = `
         <div>
-          <p><span class="font-semibold">Data:</span> ${s.data}</p>
-          <p><span class="font-semibold">Pago:</span> ${
-            s.pago ? "Sim" : "Não"
-          }</p>
+          <p><span class="font-semibold">Data:</span> ${formatarData(
+            s.data
+          )}</p>
           <p><span class="font-semibold">Descrição:</span> ${s.descricao}</p>
           <p><span class="font-semibold">Técnicas Utilizadas:</span> ${
             s.tecnicas_utilizadas || "Não informado"
@@ -137,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (confirm("Tem certeza que deseja excluir este paciente?")) {
       try {
         const res = await fetch(
-          `http://${ipServer}:3000/pacientes/${pacienteId}`,
+          `https://${ipServer}:3000/pacientesRoutes/${pacienteId}/${psicologoId}`,
           {
             method: "DELETE",
           }
@@ -145,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (res.ok) {
           alert("Paciente excluído com sucesso.");
-          window.location.href = "pacientes.html";
+          window.location.href = "listaPacientes.html";
         } else {
           alert("Erro ao excluir paciente.");
         }
@@ -160,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function excluirSessao(sessaoId) {
     if (confirm("Deseja excluir esta sessão?")) {
       try {
-        await fetch(`http://${ipServer}:3000/sessoes/${sessaoId}`, {
+        await fetch(`https://${ipServer}:3000/sessaoRoutes/${sessaoId}`, {
           method: "DELETE",
         });
         alert("Sessão excluída com sucesso!");

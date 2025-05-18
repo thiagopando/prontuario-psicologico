@@ -8,7 +8,7 @@ document
     const ipServer = window.location.hostname;
 
     try {
-      const response = await fetch(`http://${ipServer}:3000/login`, {
+      const response = await fetch(`https://${ipServer}:3000/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -93,7 +93,7 @@
           <label for="senha" class="block text-sm font-medium">Senha</label>
           <input
             type="password"
-            id="senha"
+            id="password"
             placeholder="Senha"
             required
             class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
@@ -123,29 +123,88 @@
           />
         </div>
 
+        <!-- ENDEREÇO -->
+        <h3 class="text-lg font-semibold text-dark">Endereço</h3>
         <div>
-          <label for="endereco" class="block text-sm font-medium"
-            >Endereço</label
+          <label for="endereco_cep" class="block text-sm font-medium"
+            >CEP</label
           >
           <input
             type="text"
-            id="endereco"
-            placeholder="Endereço"
+            id="endereco_cep"
+            placeholder="CEP"
             class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
           />
         </div>
-        <!--Preferências do Sistema -->
-        <h3 class="text-lg font-semibold text-dark">Preferências do Sistema</h3>
 
         <div>
-          <label for="validade_documentos" class="block text-sm font-medium"
-            >Validade dos Documentos (dias)</label
+          <label for="endereco_rua" class="block text-sm font-medium"
+            >Rua</label
           >
           <input
-            type="number"
-            id="validade_documentos"
-            placeholder="Validade em dias"
-            min="1"
+            type="text"
+            id="endereco_rua"
+            placeholder="Rua"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco_numero" class="block text-sm font-medium"
+            >Número</label
+          >
+          <input
+            type="text"
+            id="endereco_numero"
+            placeholder="Número"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco_complemento" class="block text-sm font-medium"
+            >Complemento</label
+          >
+          <input
+            type="text"
+            id="endereco_complemento"
+            placeholder="Complemento"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco_bairro" class="block text-sm font-medium"
+            >Bairro</label
+          >
+          <input
+            type="text"
+            id="endereco_bairro"
+            placeholder="Bairro"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco_cidade" class="block text-sm font-medium"
+            >Cidade</label
+          >
+          <input
+            type="text"
+            id="endereco_cidade"
+            placeholder="Cidade"
+            class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <label for="endereco_estado" class="block text-sm font-medium"
+            >Estado</label
+          >
+          <input
+            type="text"
+            id="endereco_estado"
+            placeholder="Estado"
             class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
           />
         </div>
@@ -162,6 +221,27 @@
 
         <p id="feedback" class="text-center text-sm"></p>
       </form>
+    </div>
+
+    <!-- Modal de Sucesso -->
+    <div
+      id="modalSucesso"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+    >
+      <div
+        class="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full"
+      >
+        <h2 class="text-lg font-bold text-green-600 mb-4">Sucesso!</h2>
+        <p id="modalMensagem" class="text-gray-700">
+          Cadastro atualizado com sucesso.
+        </p>
+        <button
+          id="fecharModal"
+          class="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition"
+        >
+          Fechar
+        </button>
+      </div>
     </div>
 
     <script type="module" src="../js/cadastro_psicologo.js"></script>

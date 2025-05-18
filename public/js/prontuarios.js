@@ -25,7 +25,7 @@ const sessaoId = urlParams.get("sessaoId");
 async function listarPacientes() {
   try {
     const res = await fetch(
-      `http://${ipServer}:3000/pacientes/psicologo/${psicologoId}`
+      `https://${ipServer}:3000/pacientesRoutes/psicologo/${psicologoId}`
     );
     const pacientes = await res.json();
 
@@ -57,11 +57,14 @@ async function carregarSessao() {
   }
 
   try {
-    const res = await fetch(`http://${ipServer}:3000/sessoes/${sessaoId}`, {
-      headers: {
-        "psicologo-id": psicologoId,
-      },
-    });
+    const res = await fetch(
+      `https://${ipServer}:3000/sessaoRoutes/${sessaoId}`,
+      {
+        headers: {
+          "psicologo-id": psicologoId,
+        },
+      }
+    );
 
     if (!res.ok) throw new Error("Erro ao buscar sessão.");
     const sessao = await res.json();
@@ -122,8 +125,8 @@ formSessao.addEventListener("submit", async function (e) {
   console.log("Dados da sessão a serem enviados:", sessao);
 
   const url = sessaoId
-    ? `http://${ipServer}:3000/sessoes/${sessaoId}`
-    : `http://${ipServer}:3000/sessoes`;
+    ? `https://${ipServer}:3000/sessaoRoutes/${sessaoId}`
+    : `https://${ipServer}:3000/sessaoRoutes`;
   const method = sessaoId ? "PUT" : "POST";
 
   try {

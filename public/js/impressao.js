@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Buscar informações do paciente
   try {
     const resPaciente = await fetch(
-      `http://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`
+      `https://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`
     );
     if (!resPaciente.ok)
       throw new Error("Erro ao buscar informações do paciente.");
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   for (const sessaoId of idArray) {
     try {
-      const res = await fetch(`http://${ipServer}:3000/sessoes/${sessaoId}`, {
+      const res = await fetch(`https://${ipServer}:3000/sessoes/${sessaoId}`, {
         headers: {
           "psicologo-id": psicologoId,
         },

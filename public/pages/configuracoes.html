@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurações</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4bb3fd" /* Azul claro (Botões principais) */,
+              dark: "#121331" /* Preto azulado (Textos e botões neutros) */,
+              warning: "#ffc738" /* Amarelo (Botões de alerta e destaque) */,
+              back: "#d1d5db" /* Cinza claro (Fundo) */,
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-4xl w-full">
+      <!-- Ícone animado -->
+      <div class="flex justify-center mb-6">
+        <lord-icon
+          src="https://cdn.lordicon.com/tkpfdezd.json"
+          trigger="in"
+          delay="2000"
+          colors="primary:#ffc738,secondary:#4bb3fd"
+          style="width: 100px; height: 100px"
+        >
+        </lord-icon>
+      </div>
+
+      <!-- Título -->
+      <h1 class="text-3xl font-bold text-dark mb-6 text-center">
+        Configurações
+      </h1>
+
+      <!-- Botão Voltar -->
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="w-full flex items-center justify-center gap-2 bg-back text-dark p-3 rounded-lg hover:bg-gray-400 transition mb-6"
+      >
+        Voltar
+      </button>
+
+      <!--Preferências do Sistema -->
+      <h3 class="text-lg font-semibold text-dark mb-4">
+        Preferências do Sistema
+      </h3>
+
+      <div class="mb-8">
+        <label for="validade_documentos" class="block text-sm font-medium"
+          >Validade dos Documentos (dias)</label
+        >
+        <input
+          type="number"
+          id="validade_documentos"
+          placeholder="Validade em dias"
+          min="1"
+          class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      <!-- Seção de Cadastro de Técnicas -->
+      <section class="mb-8">
+        <h2 class="text-lg font-semibold text-dark mb-4">
+          Cadastro de Técnicas
+        </h2>
+        <form id="formTecnica" class="space-y-4">
+          <div>
+            <label
+              for="nome"
+              class="block text-sm text-left mb-1 font-medium text-dark"
+            >
+              Nome da Técnica
+            </label>
+            <input
+              type="text"
+              id="nome"
+              placeholder="Digite o nome da técnica"
+              required
+              class="w-full border rounded-md p-3"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-primary text-white p-3 rounded-lg hover:bg-blue-500 transition"
+          >
+            Cadastrar Técnica
+          </button>
+        </form>
+
+        <!-- Lista de Técnicas -->
+        <div id="listaTecnicas" class="mt-6">
+          <h3 class="font-semibold text-dark mb-4">Técnicas Cadastradas</h3>
+          <ul
+            class="space-y-3 max-h-64 overflow-y-auto border border-gray-300 rounded-md p-3"
+          ></ul>
+        </div>
+      </section>
+
+      <!-- Espaço para futuras configurações -->
+      <section>
+        <h2 class="text-xl font-semibold text-dark mb-4">
+          Outras Configurações
+        </h2>
+        <p class="text-gray-600">
+          Aqui você pode adicionar mais funcionalidades no futuro, como
+          personalização de perfil, preferências do sistema, etc.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="../js/configuracoes.js"></script>
+  </body>
+</html>

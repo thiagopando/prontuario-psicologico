@@ -12,8 +12,9 @@ async function listarPacientes() {
 
   try {
     const res = await fetch(
-      `http://${ipServer}:3000/pacientes/psicologo/${psicologoId}`
+      `https://${ipServer}:3000/pacientesRoutes/psicologo/${psicologoId}`
     );
+    console.log("Fetch response status:", res.status);
 
     if (!res.ok) {
       throw new Error("Erro na requisição: " + res.status);

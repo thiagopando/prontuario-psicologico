@@ -44,7 +44,7 @@
 
       <!-- Título -->
       <h1 class="text-3xl font-bold text-dark mb-4">Dashboard</h1>
-      <p class="mb-6 text-gray-600">
+      <p id="mensagemBoasVindas" class="mb-6 text-gray-600">
         Bem-vindo(a) ao sistema de prontuário psicológico.
       </p>
 
@@ -74,6 +74,20 @@
           Prontuários
         </button>
 
+        <!-- Botão Acessar Financeiro -->
+        <button
+          class="w-full flex items-center justify-center gap-2 bg-primary text-white p-3 rounded-lg hover:bg-blue-500 transition"
+          onclick="window.location.href='financeiro.html'"
+        >
+          Acessar Financeiro
+        </button>
+        <!-- Botão Configurações -->
+        <button
+          class="w-full flex items-center justify-center gap-2 bg-back text-black p-3 rounded-lg hover:bg-blue-500 transition"
+          onclick="window.location.href='configuracoes.html'"
+        >
+          Configurações
+        </button>
         <!-- Botão Sair -->
         <button
           class="w-full flex items-center justify-center gap-2 bg-warning text-dark p-3 rounded-lg hover:bg-yellow-500 transition"
@@ -86,8 +100,13 @@
 
     <script>
       function logout() {
+        // Limpar o localStorage e redirecionar para a página de login
+        localStorage.clear();
         window.location.href = "index.html";
       }
     </script>
+
+    <!-- Importar o script da dashboard -->
+    <script type="module" src="../js/dashboard.js"></script>
   </body>
 </html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nota Fiscal</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4bb3fd",
+              dark: "#121331",
+              warning: "#ffc738",
+              back: "#d1d5db",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-4xl w-full">
+      <h1 class="text-3xl font-bold text-dark mb-6 text-center">
+        Gerar Nota Fiscal
+      </h1>
+
+      <!-- Voltar -->
+      <button
+        onclick="window.location.href='dashboard.html'"
+        class="w-full flex items-center justify-center gap-2 bg-back text-dark p-3 rounded-lg hover:bg-gray-400 transition mb-6"
+      >
+        Voltar
+      </button>
+
+      <!-- Filtros -->
+      <div class="mb-4">
+        <label for="mes" class="block font-medium text-dark mb-2">Mês:</label>
+        <input
+          type="month"
+          id="mes"
+          class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label for="paciente" class="block font-medium text-dark mb-2"
+          >Paciente:</label
+        >
+        <select
+          id="paciente"
+          class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+        >
+          <option value="">Selecione um paciente</option>
+        </select>
+      </div>
+
+      <button
+        id="emitir"
+        class="w-full bg-primary text-white font-semibold p-4 rounded-lg hover:bg-blue-500 transition"
+      >
+        Emitir Nota Fiscal
+      </button>
+
+      <!-- Resultado -->
+      <section class="mt-8">
+        <h2 class="text-xl font-semibold text-dark mb-4">XML Gerado</h2>
+        <pre
+          id="resultadoXml"
+          class="p-4 bg-gray-100 rounded-lg overflow-auto text-sm text-dark max-h-96 whitespace-pre-wrap"
+        ></pre>
+      </section>
+    </div>
+
+    <script src="../js/nota_fiscal.js"></script>
+  </body>
+</html>

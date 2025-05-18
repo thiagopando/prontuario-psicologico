@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const tituloFormulario = document.getElementById("tituloFormulario");
   const ipServer = window.location.hostname;
   const checkboxMesmaPessoa = document.getElementById("mesmo_pagador");
-
   const nascimentoInput = document.getElementById("nascimento");
   const idadeInput = document.getElementById("idade");
   const telefoneInput = document.getElementById("telefone");
@@ -22,8 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const pagadorRgInput = document.getElementById("pagador_rg");
   const rgInput = document.getElementById("rg");
   const cepInput = document.getElementById("endereco_cep");
-
-  // Novos campos
   const queixaPrincipalInput = document.getElementById("queixa_principal");
   const objetivoTerapeuticoInput = document.getElementById(
     "objetivo_terapeutico"
@@ -72,9 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Se for edição, buscar dados
   if (pacienteId) {
-    const psicologoId = new URLSearchParams(window.location.search).get(
-      "psicologoId"
-    );
+    const psicologoId = localStorage.getItem("psicologoId");
     if (!psicologoId) {
       alert("Erro: ID do psicólogo não encontrado. Faça login novamente.");
       window.location.href = "../index.html"; // Redirecionar para a página de login
@@ -82,7 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     tituloFormulario.textContent = "Editar Paciente";
-    fetch(`http://${ipServer}:3000/pacientes/${pacienteId}/${psicologoId}`)
+    fetch(
+      `https://${ipServer}:3000/pacientesRoutes/carregaDetalhes/${pacienteId}/${psicologoId}`
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erro ${res.status}: ${res.statusText}`);
@@ -178,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const method = pacienteId ? "PUT" : "POST";
     const url = pacienteId
-      ? `http://${ipServer}:3000/pacientes/${pacienteId}`
-      : `http://${ipServer}:3000/pacientes`;
+      ? `https://${ipServer}:3000/pacientesRoutes/atualizaPaciente/${pacienteId}/${psicologoId}`
+      : `https://${ipServer}:3000/pacientesRoutes/cadastraPaciente/${psicologoId}`;
 
     try {
       const response = await fetch(url, {
