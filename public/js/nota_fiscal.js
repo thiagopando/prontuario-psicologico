@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const selectPaciente = document.getElementById("paciente");
   const inputMes = document.getElementById("mes");
-  const btnEmitir = document.getElementById("emitir");
+  const btnGerarRps = document.getElementById("btnGerarRps");
+  const btnGerarLote = document.getElementById("btnGerarLote");
   const resultadoXml = document.getElementById("resultadoXml");
   const ip = window.location.hostname;
   const protocolo = window.location.protocol;
@@ -15,7 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(
         `${protocolo}//${ip}:3000/pacientesRoutes/psicologo/${psicologoId}`
       );
+      if (!res.ok) throw new Error("Erro ao carregar pacientes.");
+
       const pacientes = await res.json();
+
+      if (pacientes.length === 0) {
+        selectPaciente.innerHTML =
+          "<option disabled>Nenhum paciente encontrado</option>";
+        return;
+      }
 
       pacientes.forEach((p) => {
         if (!notaPacienteId || p.id == notaPacienteId) {
@@ -33,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error("Erro ao carregar pacientes:", err);
       alert("Erro ao carregar pacientes.");
+      selectPaciente.innerHTML =
+        "<option disabled>Erro ao carregar pacientes</option>";
     }
   }
 
@@ -42,7 +53,44 @@ document.addEventListener("DOMContentLoaded", () => {
     inputMes.value = notaMesSelecionado;
   }
 
-  btnEmitir.addEventListener("click", async () => {
+  // Evento para gerar RPS de uma única sessão
+  btnGerarRps.addEventListener("click", async () => {
+    const sessaoId = prompt("Digite o ID da sessão paga:");
+    if (!sessaoId) {
+      alert("O ID da sessão é obrigatório.");
+      return;
+    }
+
+    try {
+      resultadoXml.textContent = "Gerando XML...";
+
+      const res = await fetch(
+        `${protocolo}//${ip}:3000/nota-fiscal/gerar-rps`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessaoId }),
+        }
+      );
+
+      if (!res.ok) {
+        const error = await res.json();
+        resultadoXml.textContent = `❌ Erro: ${
+          error.error || "Falha ao gerar o RPS."
+        }`;
+        return;
+      }
+
+      const xml = await res.text();
+      resultadoXml.textContent = xml;
+    } catch (err) {
+      console.error("Erro ao gerar RPS:", err);
+      resultadoXml.textContent = "❌ Ocorreu um erro ao gerar o RPS.";
+    }
+  });
+
+  // Evento para gerar lote de RPS
+  btnGerarLote.addEventListener("click", async () => {
     const pacienteId = selectPaciente.value;
     const mesSelecionado = inputMes.value;
 
@@ -54,23 +102,73 @@ document.addEventListener("DOMContentLoaded", () => {
     const [ano, mes] = mesSelecionado.split("-");
 
     try {
-      const res = await fetch(`${protocolo}//${ip}:3000/nota-fiscal/enviar`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pacienteId, ano, mes }),
-      });
+      resultadoXml.textContent = "Gerando XML...";
 
-      if (res.status === 404) {
-        resultadoXml.textContent =
-          "⚠️ Nenhuma sessão paga encontrada para esse período.";
+      const res = await fetch(
+        `${protocolo}//${ip}:3000/nota-fiscal/gerar-lote`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pacienteId, ano, mes }),
+        }
+      );
+
+      if (!res.ok) {
+        const error = await res.json();
+        resultadoXml.textContent = `❌ Erro: ${
+          error.error || "Falha ao gerar o lote de RPS."
+        }`;
         return;
       }
 
       const xml = await res.text();
       resultadoXml.textContent = xml;
     } catch (err) {
-      console.error("Erro ao emitir nota:", err);
-      alert("Erro ao emitir a nota fiscal.");
+      console.error("Erro ao gerar lote de RPS:", err);
+      resultadoXml.textContent = "❌ Ocorreu um erro ao gerar o lote de RPS.";
     }
   });
+
+  async function carregarDadosFiscais() {
+    try {
+      const res = await fetch(
+        `${protocolo}//${ip}:3000/psicologoRoutes/${psicologoId}`
+      );
+      if (!res.ok) throw new Error("Erro ao buscar dados do psicólogo.");
+      const p = await res.json();
+
+      document.getElementById("fiscal_nome").textContent =
+        p.razao_social || p.nome || "-";
+      document.getElementById("fiscal_cpf_cnpj").textContent =
+        p.cpf_cnpj || "-";
+      document.getElementById("fiscal_im").textContent =
+        p.inscricao_municipal || "-";
+      document.getElementById("fiscal_endereco").textContent = `${
+        p.endereco_rua || ""
+      }, ${p.endereco_numero || ""} - ${p.endereco_cidade || ""} / ${
+        p.endereco_estado || ""
+      }`;
+      document.getElementById("fiscal_regime").textContent = traduzirRegime(
+        p.regime_tributario
+      );
+      document.getElementById("fiscal_servico").textContent =
+        p.codigo_servico || "801";
+    } catch (err) {
+      console.error("Erro ao carregar dados fiscais:", err);
+    }
+  }
+
+  function traduzirRegime(valor) {
+    switch (valor) {
+      case "1":
+        return "MEI";
+      case "2":
+        return "Simples Nacional";
+      case "3":
+        return "Lucro Presumido";
+      default:
+        return "-";
+    }
+  }
+  carregarDadosFiscais();
 });

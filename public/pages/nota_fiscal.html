@@ -27,6 +27,60 @@
       <h1 class="text-3xl font-bold text-dark mb-6 text-center">
         Gerar Nota Fiscal
       </h1>
+      <!-- Dados Fiscais do Psicólogo -->
+      <section
+        class="mb-6 bg-warning bg-opacity-10 border border-yellow-300 p-6 rounded-lg shadow-sm"
+      >
+        <h2 class="text-xl font-bold text-warning mb-4 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 text-warning"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M12 9v2m0 4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"
+            />
+          </svg>
+          Verifique seus dados fiscais antes de emitir
+        </h2>
+
+        <div
+          id="dadosFiscais"
+          class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-dark"
+        >
+          <p>
+            <strong>Nome/Razão Social:</strong> <span id="fiscal_nome"></span>
+          </p>
+          <p><strong>CPF/CNPJ:</strong> <span id="fiscal_cpf_cnpj"></span></p>
+          <p>
+            <strong>Inscrição Municipal:</strong> <span id="fiscal_im"></span>
+          </p>
+          <p><strong>Endereço:</strong> <span id="fiscal_endereco"></span></p>
+          <p>
+            <strong>Regime Tributário:</strong> <span id="fiscal_regime"></span>
+          </p>
+          <p>
+            <strong>Código do Serviço:</strong>
+            <span id="fiscal_servico"></span>
+          </p>
+        </div>
+
+        <p class="mt-4 text-sm text-yellow-800">
+          ⚠️ Caso algum dado esteja incorreto ou ausente, atualize seu cadastro
+          na tela
+          <a
+            href="cadastro_psicologo.html"
+            class="underline text-blue-700 hover:text-blue-900"
+            >"Meu Perfil"</a
+          >
+          da Dashboard.
+        </p>
+      </section>
 
       <!-- Voltar -->
       <button
@@ -58,11 +112,26 @@
         </select>
       </div>
 
+      <div class="mb-6 flex gap-4">
+        <button
+          id="btnGerarRps"
+          class="w-full bg-primary text-white font-semibold p-4 rounded-lg hover:bg-blue-500 transition"
+        >
+          Gerar RPS (única sessão)
+        </button>
+        <button
+          id="btnGerarLote"
+          class="w-full bg-primary text-white font-semibold p-4 rounded-lg hover:bg-blue-500 transition"
+        >
+          Gerar Lote de RPS (mês)
+        </button>
+      </div>
+
       <button
         id="emitir"
         class="w-full bg-primary text-white font-semibold p-4 rounded-lg hover:bg-blue-500 transition"
       >
-        Emitir Nota Fiscal
+        Emitir XML
       </button>
 
       <!-- Resultado -->

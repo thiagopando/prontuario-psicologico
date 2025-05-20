@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EnviarLoteRpsEnvio xmlns="http://www.abrasf.org.br/nfse.xsd">
+  <LoteRps Id="lote1" versao="2.03">
+    <NumeroLote>1</NumeroLote>
+    <Prestador>
+      <CpfCnpj>
+        <Cnpj>59899781000302</Cnpj>
+      </CpfCnpj>
+      <InscricaoMunicipal>2222222222</InscricaoMunicipal>
+    </Prestador>
+    <QuantidadeRps>3</QuantidadeRps>
+    <ListaRps>
+      <Rps>
+        <InfDeclaracaoPrestacaoServico Id="rps_1">
+          <Rps>
+            <IdentificacaoRps>
+              <Numero>1</Numero>
+              <Serie>RPS</Serie>
+              <Tipo>1</Tipo>
+            </IdentificacaoRps>
+            <DataEmissao>2025-05-19</DataEmissao>
+            <Status>1</Status>
+            <Servico>
+              <Valores>
+                <ValorServicos>250.00</ValorServicos>
+                <Aliquota>0.02</Aliquota>
+              </Valores>
+              <IssRetido>1</IssRetido>
+              <ItemListaServico>801</ItemListaServico>
+              <Discriminacao>Serviço de psicoterapia realizado em 2025-05-19</Discriminacao>
+              <CodigoMunicipio>3550308</CodigoMunicipio>
+            </Servico>
+            <Tomador>
+              <IdentificacaoTomador>
+                <CpfCnpj>
+                  <Cpf>333.333.333-33</Cpf>
+                </CpfCnpj>
+              </IdentificacaoTomador>
+              <RazaoSocial>Eduardo Botaro</RazaoSocial>
+              <Endereco>
+                <Endereco>Rua Getúlio Soares da Rocha</Endereco>
+                <Numero>200</Numero>
+                <Bairro>Jardim das Acácias</Bairro>
+                <CodigoMunicipio>3550308</CodigoMunicipio>
+                <Uf>SP</Uf>
+                <Cep>04704050</Cep>
+              </Endereco>
+            </Tomador>
+          </Rps>
+        </InfDeclaracaoPrestacaoServico>
+      </Rps>
+      <Rps>
+        <InfDeclaracaoPrestacaoServico Id="rps_2">
+          <Rps>
+            <IdentificacaoRps>
+              <Numero>2</Numero>
+              <Serie>RPS</Serie>
+              <Tipo>1</Tipo>
+            </IdentificacaoRps>
+            <DataEmissao>2025-05-12</DataEmissao>
+            <Status>1</Status>
+            <Servico>
+              <Valores>
+                <ValorServicos>250.00</ValorServicos>
+                <Aliquota>0.02</Aliquota>
+              </Valores>
+              <IssRetido>1</IssRetido>
+              <ItemListaServico>801</ItemListaServico>
+              <Discriminacao>Serviço de psicoterapia realizado em 2025-05-12</Discriminacao>
+              <CodigoMunicipio>3550308</CodigoMunicipio>
+            </Servico>
+            <Tomador>
+              <IdentificacaoTomador>
+                <CpfCnpj>
+                  <Cpf>333.333.333-33</Cpf>
+                </CpfCnpj>
+              </IdentificacaoTomador>
+              <RazaoSocial>Eduardo Botaro</RazaoSocial>
+              <Endereco>
+                <Endereco>Rua Getúlio Soares da Rocha</Endereco>
+                <Numero>200</Numero>
+                <Bairro>Jardim das Acácias</Bairro>
+                <CodigoMunicipio>3550308</CodigoMunicipio>
+                <Uf>SP</Uf>
+                <Cep>04704050</Cep>
+              </Endereco>
+            </Tomador>
+          </Rps>
+        </InfDeclaracaoPrestacaoServico>
+      </Rps>
+      <Rps>
+        <InfDeclaracaoPrestacaoServico Id="rps_3">
+          <Rps>
+            <IdentificacaoRps>
+              <Numero>3</Numero>
+              <Serie>RPS</Serie>
+              <Tipo>1</Tipo>
+            </IdentificacaoRps>
+            <DataEmissao>2025-05-05</DataEmissao>
+            <Status>1</Status>
+            <Servico>
+              <Valores>
+                <ValorServicos>250.00</ValorServicos>
+                <Aliquota>0.02</Aliquota>
+              </Valores>
+              <IssRetido>1</IssRetido>
+              <ItemListaServico>801</ItemListaServico>
+              <Discriminacao>Serviço de psicoterapia realizado em 2025-05-05</Discriminacao>
+              <CodigoMunicipio>3550308</CodigoMunicipio>
+            </Servico>
+            <Tomador>
+              <IdentificacaoTomador>
+                <CpfCnpj>
+                  <Cpf>333.333.333-33</Cpf>
+                </CpfCnpj>
+              </IdentificacaoTomador>
+              <RazaoSocial>Eduardo Botaro</RazaoSocial>
+              <Endereco>
+                <Endereco>Rua Getúlio Soares da Rocha</Endereco>
+                <Numero>200</Numero>
+                <Bairro>Jardim das Acácias</Bairro>
+                <CodigoMunicipio>3550308</CodigoMunicipio>
+                <Uf>SP</Uf>
+                <Cep>04704050</Cep>
+              </Endereco>
+            </Tomador>
+          </Rps>
+        </InfDeclaracaoPrestacaoServico>
+      </Rps>
+    </ListaRps>
+  </LoteRps>
+</EnviarLoteRpsEnvio>

@@ -93,6 +93,12 @@ router.put("/:id", (req, res) => {
     endereco_bairro,
     endereco_cidade,
     endereco_estado,
+    cpf_cnpj, // Novo campo
+    inscricao_municipal, // Novo campo
+    razao_social, // Novo campo
+    regime_tributario, // Novo campo
+    iss_retido, // Novo campo
+    codigo_servico, // Novo campo
   } = req.body;
 
   // Buscar o psicólogo atual para verificar o valor do password
@@ -113,7 +119,9 @@ router.put("/:id", (req, res) => {
       `UPDATE psicologo SET
         nome = ?, crp = ?, telefone = ?, email = ?, password = ?, validade_documentos = ?,
         endereco_cep = ?, endereco_rua = ?, endereco_numero = ?, endereco_complemento = ?,
-        endereco_bairro = ?, endereco_cidade = ?, endereco_estado = ?
+        endereco_bairro = ?, endereco_cidade = ?, endereco_estado = ?,
+        cpf_cnpj = ?, inscricao_municipal = ?, razao_social = ?, regime_tributario = ?,
+        iss_retido = ?, codigo_servico = ?
       WHERE id = ?`,
       [
         nome,
@@ -129,6 +137,12 @@ router.put("/:id", (req, res) => {
         endereco_bairro,
         endereco_cidade,
         endereco_estado,
+        cpf_cnpj,
+        inscricao_municipal,
+        razao_social,
+        regime_tributario,
+        iss_retido,
+        codigo_servico,
         id,
       ],
       function (err) {

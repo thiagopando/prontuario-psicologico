@@ -209,6 +209,92 @@
           />
         </div>
 
+        <!-- CAMPOS DE NOTA FISCAL -->
+        <div
+          id="nfsCampos"
+          class="hidden space-y-4 border-t border-gray-300 pt-6"
+        >
+          <h3 class="text-lg font-semibold text-dark">
+            Emissão de Nota Fiscal
+          </h3>
+
+          <div>
+            <label for="cpf_cnpj" class="block text-sm font-medium"
+              >CPF ou CNPJ</label
+            >
+            <input
+              type="text"
+              id="cpf_cnpj"
+              placeholder="CPF ou CNPJ do psicólogo"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+
+          <div>
+            <label for="inscricao_municipal" class="block text-sm font-medium"
+              >Inscrição Municipal</label
+            >
+            <input
+              type="text"
+              id="inscricao_municipal"
+              placeholder="Inscrição Municipal"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+
+          <div>
+            <label for="razao_social" class="block text-sm font-medium"
+              >Razão Social</label
+            >
+            <input
+              type="text"
+              id="razao_social"
+              placeholder="Nome ou Razão Social"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+
+          <div>
+            <label for="regime_tributario" class="block text-sm font-medium"
+              >Regime Tributário</label
+            >
+            <select
+              id="regime_tributario"
+              class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="">Selecione</option>
+              <option value="1">Microempreendedor Individual (MEI)</option>
+              <option value="2">Simples Nacional</option>
+              <option value="3">Lucro Presumido</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="iss_retido" class="block text-sm font-medium"
+              >ISS Retido?</label
+            >
+            <select
+              id="iss_retido"
+              class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="2">Não</option>
+              <option value="1">Sim</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="codigo_servico" class="block text-sm font-medium"
+              >Código do Serviço</label
+            >
+            <input
+              type="text"
+              id="codigo_servico"
+              value="801"
+              class="w-full p-4 rounded-lg border border-gray-300 mt-1 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
         <!-- BOTÕES -->
         <div class="mb-6">
           <button

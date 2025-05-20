@@ -20,7 +20,13 @@ db.serialize(() => {
       endereco_complemento TEXT,
       endereco_bairro TEXT,
       endereco_cidade TEXT,
-      endereco_estado TEXT
+      endereco_estado TEXT,
+      cpf_cnpj TEXT, -- Novo campo
+      inscricao_municipal TEXT, -- Novo campo
+      razao_social TEXT, -- Novo campo
+      regime_tributario TEXT, -- Novo campo
+      iss_retido TEXT DEFAULT '2', -- Novo campo (padrão: "2")
+      codigo_servico TEXT DEFAULT '801' -- Novo campo (padrão: "801")
     )
   `);
 

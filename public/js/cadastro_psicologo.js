@@ -23,7 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const bairroInput = document.getElementById("endereco_bairro");
   const cidadeInput = document.getElementById("endereco_cidade");
   const estadoInput = document.getElementById("endereco_estado");
-  const passwordInput = document.getElementById("password"); // Campo de senha (apenas para criação)
+  const passwordInput = document.getElementById("password");
+  const nfsCampos = document.getElementById("nfsCampos");
+  const cpfCnpjInput = document.getElementById("cpf_cnpj");
+  const inscricaoMunicipalInput = document.getElementById(
+    "inscricao_municipal"
+  );
+  const razaoSocialInput = document.getElementById("razao_social");
+  const regimeTributarioInput = document.getElementById("regime_tributario");
+  const issRetidoInput = document.getElementById("iss_retido");
+  const codigoServicoInput = document.getElementById("codigo_servico");
+
+  // Variável global para controlar se as notas fiscais estão ativadas
+  let notasAtivadas = false;
 
   // Mostrar o modal de sucesso
   function mostrarModalSucesso(mensagem) {
@@ -31,24 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalMensagem = document.getElementById("modalMensagem");
     const fecharModal = document.getElementById("fecharModal");
 
-    // Atualizar a mensagem do modal
     modalMensagem.textContent = mensagem;
-
-    // Exibir o modal
     modal.classList.remove("hidden");
 
-    // Fechar o modal ao clicar no botão
     fecharModal.addEventListener("click", () => {
       modal.classList.add("hidden");
-      // Recarregar a página
       window.location.reload();
     });
 
-    // Fechar o modal ao clicar fora dele
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.classList.add("hidden");
-        // Recarregar a página
         window.location.reload();
       }
     });
@@ -91,6 +96,16 @@ document.addEventListener("DOMContentLoaded", () => {
       endereco_estado: estadoInput.value.trim(),
     };
 
+    // Adicionar os campos de NFS-e apenas se notasAtivadas for true
+    if (notasAtivadas) {
+      dados.cpf_cnpj = cpfCnpjInput.value.trim();
+      dados.inscricao_municipal = inscricaoMunicipalInput.value.trim();
+      dados.razao_social = razaoSocialInput.value.trim();
+      dados.regime_tributario = regimeTributarioInput.value.trim();
+      dados.iss_retido = issRetidoInput.value.trim();
+      dados.codigo_servico = codigoServicoInput.value.trim();
+    }
+
     // Adicionar senha apenas no modo de criação
     if (!psicologoId && passwordInput) {
       dados.password = passwordInput.value.trim();
@@ -110,9 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) throw new Error("Erro ao salvar dados.");
 
-      // Exibir o modal de sucesso
       mostrarModalSucesso("Cadastro atualizado com sucesso!");
-
       form.reset();
     } catch (error) {
       feedback.textContent = "Erro ao salvar dados.";
@@ -143,9 +156,25 @@ document.addEventListener("DOMContentLoaded", () => {
       cidadeInput.value = p.endereco_cidade || "";
       estadoInput.value = p.endereco_estado || "";
 
-      // Ocultar o campo de senha no modo de edição
+      // Forçar ativação dos campos de NFS-e para teste
+      notasAtivadas = true;
+
+      if (notasAtivadas) {
+        nfsCampos.classList.remove("hidden");
+
+        cpfCnpjInput.value = p.cpf_cnpj || "";
+        inscricaoMunicipalInput.value = p.inscricao_municipal || "";
+        razaoSocialInput.value = p.razao_social || "";
+        regimeTributarioInput.value = p.regime_tributario || "";
+        issRetidoInput.value = p.iss_retido || "2";
+        codigoServicoInput.value = p.codigo_servico || "801";
+      } else {
+        nfsCampos.classList.add("hidden");
+      }
+
       if (passwordInput) {
         passwordInput.parentElement.style.display = "none";
+        passwordInput.removeAttribute("required");
       }
 
       if (telefoneInput) telefoneInput.dispatchEvent(new Event("input"));
